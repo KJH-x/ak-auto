@@ -1,0 +1,120 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "type": "object",
+    "properties": {
+        "bark": {
+            "type": "object",
+            "properties": {
+                "icon": {"type": "string"},
+                "level": {"type": "string"},
+                "group": {"type": "string"},
+                "ApiKey": {"type": "string"},
+                "ApiUrlBase": {"type": "string"}
+            },
+            "required": ["icon", "level", "group", "ApiKey", "ApiUrlBase"]
+        },
+        "mumu": {
+            "type": "object",
+            "properties": {
+                "MumuManagerPath": {"type": "string"}
+            },
+            "required": ["MumuManagerPath"]
+        },
+        "windows": {
+            "type": "object",
+            "patternProperties": {
+                "^.+$": {
+                    "type": "object",
+                    "properties": {
+                        "name": {"type": "string"},
+                        "x": {"type": "number"},
+                        "y": {"type": "number"},
+                        "w": {"type": "number"},
+                        "h": {"type": "number"}
+                    },
+                    "required": ["name", "x", "y", "w", "h"]
+                }
+            }
+        },
+        "hotfix_remote": {
+            "type": "object",
+            "properties": {
+                "repo_info": {
+                    "type": "object",
+                    "properties": {
+                        "username": {"type": "string"},
+                        "reponame": {"type": "string"}
+                    },
+                    "required": ["username", "reponame"]
+                },
+                "proxy": {
+                    "type": "object",
+                    "properties": {
+                        "http": {"type": "string"},
+                        "https": {"type": "string"}
+                    },
+                    "required": ["http", "https"]
+                },
+                "headers": {
+                    "type": "object",
+                    "properties": {
+                        "accept": {"type": "string"},
+                        "accept-encoding": {"type": "string"},
+                        "accept-language": {"type": "string"},
+                        "cache-control": {"type": "string"},
+                        "dnt": {"type": "string"},
+                        "origin": {"type": "string"},
+                        "pragma": {"type": "string"},
+                        "referer": {"type": "string"},
+                        "sec-ch-ua-platform": {"type": "string"},
+                        "sec-fetch-dest": {"type": "string"},
+                        "sec-fetch-mode": {"type": "string"},
+                        "sec-fetch-site": {"type": "string"},
+                        "user-agent": {"type": "string"}
+                    },
+                    "required": [
+                        "accept", "accept-encoding", "accept-language", "cache-control",
+                        "dnt", "origin", "pragma", "referer", "sec-ch-ua-platform",
+                        "sec-fetch-dest", "sec-fetch-mode", "sec-fetch-site", "user-agent"
+                    ]
+                },
+                "local": {
+                    "type": "object",
+                    "properties": {
+                        "download_path": {"type": "string"}
+                    },
+                    "required": ["download_path"]
+                },
+                "launcher": {
+                    "type": "object",
+                    "properties": {
+                        "common": {
+                            "type": "object",
+                            "properties": {
+                                "MumuManager": {"type": "string"},
+                                "MumuADB": {"type": "string"},
+                                "maa_root": {"type": "string"}
+                            },
+                            "required": ["MumuManager", "MumuADB", "maa_root"]
+                        },
+                        "maa": {
+                            "type": "object",
+                            "properties": {
+                                "maa_instances": {
+                                    "type": "array",
+                                    "items": {"type": "string"}
+                                },
+                                "indexes": {
+                                    "type": "array",
+                                    "items": {"type": "string"}
+                                }
+                            },
+                            "required": ["maa_instances", "maa_configs", "indexes"]
+                        }
+                    },
+                    "required": ["common", "maa"]
+                }
+            }
+        }
+    }
+}
