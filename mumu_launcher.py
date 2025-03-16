@@ -151,9 +151,12 @@ if __name__ == '__main__':
     logger.info("挂机系统启动器")
 
     debug_flags = {
-        "skip_update": True,
-        "skip_shutdown": True,
-        "skip_startup": True,
+        "skip_update": False,
+        "skip_shutdown": False,
+        "skip_startsim": False,
+        "skip_startADB": False,
+        "skip_startAk": False,
+        "skip_startMAA": False,
         "skip_arrange": False,
     }
     addr_list=""
@@ -204,7 +207,7 @@ if __name__ == '__main__':
             pass
 
     # Start Up
-    if not debug_flags["skip_startup"]:
+    if not debug_flags["skip_startsim"]:
         try:
             # Launch Players
             logger.info("Launching Plyaers...")
@@ -226,7 +229,11 @@ if __name__ == '__main__':
                     wait(1, f"Player {state_all} is not ready.")
 
             logger.info("Players Launched.")
+        except KeyboardInterrupt:
+            input("操作打断")
 
+    if not debug_flags["skip_startADB"]:
+        try:
             # Start adb, Connect ADB to Players, Check Connect State
             command_adb("devices")
             retry_count = 0
@@ -252,18 +259,28 @@ if __name__ == '__main__':
 
             logger.info("ADB Connection OK.")
 
+        except KeyboardInterrupt:
+            input("操作打断")
+
+    if not debug_flags["skip_startAk"]:
+        try:
             # Launch Arknights
             logger.info("Launching Arknights ...")
-            command_all("api", "launch_app com.hypergryph.arknights", maa_config["indexes"], interval=15)
+            command_all("api", "launch_app com.hypergryph.arknights", maa_config["indexes"])
             logger.info("Arknights Launched.")
 
             # report_content = "; ".join([addr.split(":")[1] for addr in addr_list])
             # bark_sub = mp.Process(target=bark, args=(report_content, api, key, icon))
             # bark_sub.start()
+        except KeyboardInterrupt:
+            input("操作打断")
 
+    if not debug_flags["skip_startMAA"]:
+        try:
             # write ADB Ports and adb path:
-            update_ports(addr_list)
-            logger.info("Configs Upadted.")
+            if addr_list:
+                update_ports(addr_list)
+                logger.info("Configs Upadted.")
             # Start MAA
             start_MAA()
             logger.info("MAA Started.")
