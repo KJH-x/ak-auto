@@ -98,7 +98,7 @@ class WindowManager:
                 else:
                     window_info["name"] = info[0][1]
                     window_info["hwnd"] = str(win32gui.FindWindow(None, info[0][1]))
-                    logger.info(f"找到窗口: {info[0][1]}, 句柄: {window_info['hwnd']}")
+                    logger.debug(f"找到窗口: {info[0][1]}, 句柄: {window_info['hwnd']}")
         except Exception as e:
             logger.error(f"更新窗口信息失败: {e}")
 
