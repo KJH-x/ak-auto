@@ -31,7 +31,7 @@ maa_root: str = launcher_config["maa_root"]
 # Generator:
 # f"{[f"{i:02d}_Instance_{i}" for i in range(1, 6)]}".replace("\'","\"")
 maa_instances: List[str] = maa_config["maa_instances"]
-maa_configs: List[str] = maa_config["maa_instances"]
+maa_configs: List[str] = maa_config["maa_configs"]
 instance_count: int = len(maa_instances)
 
 
@@ -106,7 +106,7 @@ def command_byIndex(index: int, command_prefix: str, command_suffix: str = "", i
 
 @log_function_call
 def update_ports(addr_list: list[str]) -> None:
-    for instance, addr, index in zip(maa_instances, addr_list, range(1, instance_count)):
+    for instance, addr, index in zip(maa_instances, addr_list, range(instance_count)):
         with open(os.path.join(maa_root, instance, maa_config_path), mode="r", encoding="utf-8") as config_fp:
             config: Dict[str, Any] = dict(json.load(config_fp))
         del config_fp
@@ -119,7 +119,7 @@ def update_ports(addr_list: list[str]) -> None:
         with open(os.path.join(maa_root, instance, maa_config_path), mode="w", encoding="utf-8") as config_fp:
             json.dump(config, config_fp, indent=2, ensure_ascii=False)
 
-        logger.info(2, f'{index+1}: adb addr set to: {addr}')
+        logger.info(f'{index+1}: adb addr set to: {addr}')
 
 
 @log_function_call
