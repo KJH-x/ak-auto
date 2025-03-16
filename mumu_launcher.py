@@ -4,8 +4,7 @@ import subprocess
 import sys
 import time
 from datetime import datetime
-from functools import wraps
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Set
 
 # from requests.exceptions import ConnectTimeout
 # import multiprocessing as mp
@@ -109,7 +108,6 @@ def update_ports(addr_list: list[str]) -> None:
     for instance, addr, index in zip(maa_instances, addr_list, range(instance_count)):
         with open(os.path.join(maa_root, instance, maa_config_path), mode="r", encoding="utf-8") as config_fp:
             config: Dict[str, Any] = dict(json.load(config_fp))
-        del config_fp
 
         config["Configurations"][maa_configs[index]]["Connect.Address"] = addr
         config["Configurations"][maa_configs[index]]["Connect.AddressHistory"] = f"[\"{str(
@@ -158,6 +156,7 @@ if __name__ == '__main__':
         "skip_startup": True,
         "skip_arrange": False,
     }
+    addr_list=""
 
     # Deprecated. Nothing to report
     # report_content = ""
@@ -217,7 +216,7 @@ if __name__ == '__main__':
 
                 logger.info("Checking Plyaers status...")
                 checks = command_all("api", "player_state", maa_config["indexes"])
-                state_all = set()
+                state_all: Set[int] = set()
                 for check, index in zip(checks, range(1, instance_count + 1)):
                     if "start_finished" not in check[1]:
                         state_all.add(index)
