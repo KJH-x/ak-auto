@@ -6,6 +6,7 @@ from typing import Dict
 import requests
 
 from logger import log_function_call, setup_logger
+from UAC_promoted import run_with_UAC
 
 logger = setup_logger()
 
@@ -92,11 +93,9 @@ class GitRepoDownload:
                     target_item = os.path.join(to_path, item)
                     logger.info(f"Copy -> {target_item}")
                     if os.path.isdir(source_item):
-                        subprocess.run(['xcopy', source_item, target_item, '/E',
-                                       '/H', '/C', '/I', '/Y', '/Q'], shell=True, check=True)
+                        run_with_UAC(f'Copy-Item -Path "{source_item}" -Destination "{target_item}" -Recurse -Force')
                     else:
-                        subprocess.run(
-                            ['xcopy', source_item, target_item, '/Y', '/Q'], shell=True, check=True)
+                        run_with_UAC(f'Copy-Item -Path "{source_item}" -Destination "{target_item}" -Force')
             with open(hotfixVersion, mode='w', encoding='utf8') as version:
                 version.write(str(self.hash))
             logger.info(f"Dir {to_path} is updated")

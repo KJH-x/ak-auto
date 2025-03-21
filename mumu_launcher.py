@@ -13,6 +13,7 @@ from Arrange_windows import arrange
 from config_manager import ConfigManager
 from logger import log_function_call, setup_logger
 from MaaHotFix import Update
+from UAC_promoted import run_with_UAC
 
 logger = setup_logger()
 
@@ -118,16 +119,6 @@ def update_ports(addr_list: list[str]) -> None:
             json.dump(config, config_fp, indent=2, ensure_ascii=False)
 
         logger.info(f'{index+1}: adb addr set to: {addr}')
-
-
-@log_function_call
-def run_with_UAC(core_command: str) -> None:
-    command = "& {Start-Process pwsh -ArgumentList '-NoProfile -ExecutionPolicy Bypass -Command \"& {" + \
-        core_command+"} \"' -Verb RunAs}"
-    subprocess.run(
-        ["pwsh", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command],
-        stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE, text=True
-    )
 
 
 @log_function_call
