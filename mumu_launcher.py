@@ -150,7 +150,7 @@ if __name__ == '__main__':
         "skip_startMAA": False,
         "skip_arrange": False,
     }
-    addr_list=""
+    addr_list = ""
 
     # Deprecated. Nothing to report
     # report_content = ""
