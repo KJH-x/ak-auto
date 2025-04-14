@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Live Multi-Log Viewer</title>
+</head>
+<body>
+  <h1>Live Logs</h1>
+  <div id="logs"></div>
+
+  <script>
+    const ws = new WebSocket("ws://localhost:8000/ws/logs");
+    const logDiv = document.getElementById("logs");
+
+    ws.onmessage = function(event) {
+      const data = JSON.parse(event.data);
+      const { source, line } = data;
+      const entry = document.createElement("div");
+      entry.textContent = `[${source}] ${line}`;
+      logDiv.appendChild(entry);
+    };
+
+    ws.onclose = function() {
+      alert("WebSocket closed");
+    };
+  </script>
+</body>
+</html>

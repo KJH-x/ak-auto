@@ -282,6 +282,7 @@ if __name__ == '__main__':
     # Arrange Windows
     if not debug_flags["skip_arrange"]:
         try:
+            wait(20,"wait for windows")
             arrange(common_config_path)
             logger.info("Windows Arranged.")
 
